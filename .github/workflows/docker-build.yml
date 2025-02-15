@@ -5,6 +5,8 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  schedule:
+    - cron: '0 0 1,15 * *'  # Runs every 1st and 15th day of the month at 00:00 UTC
 
 jobs:
   build:
@@ -42,3 +44,4 @@ jobs:
           file: ${{ matrix.variant.dockerfile }}
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/${{ matrix.variant.tag }}:latest
+          build-args: CACHE_BUST=${{ env.CACHE_BUST }}  # Forces rebuild
