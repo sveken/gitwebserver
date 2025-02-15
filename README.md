@@ -3,8 +3,9 @@ A small  lighthttp webserver that auto pulls a website from a git repo and serve
 It will then pull down any updates from the repository every hour by default. This setting can be changed.
 
 There are two version, debian at 170MB and alpine at 24.3MB.
-Variables are ```GIT_REPO``` which points to your public repository, and ```UPDATE_TIMER``` which is how often in seconds it will check for updates.
+Variables are ```GIT_REPO``` which points to your repository, and ```UPDATE_TIMER``` which is how often in seconds it will check for updates.
 
+To use a private repo, you can generate a fine grain access token or PAT on github and enter the url as ```https://<gitTokenhere>@your_repo_URL_without_https``` for example the URL would be ```https://github_pat_xxxgdfxxxx@github.com/user/repo```
 
 ## Example Compose file
 ```
