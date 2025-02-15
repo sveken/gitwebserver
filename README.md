@@ -2,12 +2,19 @@
 A small  lighthttp webserver that auto pulls a website from a git repo and serves it. 
 It will then pull down any updates from the repository every hour by default. This setting can be changed.
 
-There are two version, debian at 170MB and alpine at 24.3MB.
-Variables are ```GIT_REPO``` which points to your repository, and ```UPDATE_TIMER``` which is how often in seconds it will check for updates.
+There are three version, debian with lighthttpd at 170MB, alpine at 24.3MB with lighthttpd and a alpine with caddy version with auto SSL at 60MB.
+Variables are 
 
-To use a private repo, you can generate a fine grain access token or PAT on github and enter the url as ```https://<gitTokenhere>@your_repo_URL_without_https``` for example the URL would be ```https://github_pat_xxxgdfxxxx@github.com/user/repo```
+```GIT_REPO``` which points to your repository. 
 
-## Example Compose file
+```UPDATE_TIMER``` which is how often in seconds it will check for updates. 
+
+```GIT_PAT``` Which when set will be used to authenticate against private repos.
+
+ ```DOMAIN``` Used in the caddy version for auto SSL. It is the domain of your website
+
+
+## Example Compose file with alpine and lighthttpd
 ```
 services:
   gitweb:
@@ -31,3 +38,19 @@ docker run -d \
   --restart always \
   ghcr.io/sveken/gitwebserver-alpine:latest
 ```
+
+## Example Caddy Compose file using a private repo
+``` 
+services:
+  gitweb:
+    environment:
+      GIT_REPO: https://github.com/username/website
+      UPDATE_TIMER: 3600 # in seconds git will update the web files (default 3600) which is an hour. 
+      DOMAIN: mydomain.com
+      GIT_PAT: github_pat_xxx
+    image: ghcr.io/sveken/gitwebserver-caddy:latest
+    ports:
+      - "443:443"
+      - "80:80"
+    restart: always
+    ```
