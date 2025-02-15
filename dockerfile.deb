@@ -23,7 +23,12 @@ COPY scripts/lighttpd.conf /etc/lighttpd/lighttpd.conf
 COPY scripts/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh && chown container:container /entrypoint.sh
 
-
+# Labels
+LABEL org.opencontainers.image.authors="Sveken"
+LABEL org.opencontainers.image.title="GitWebServer"
+LABEL org.opencontainers.image.source=https://github.com/sveken/gitwebserver
+LABEL org.opencontainers.image.description="Docker image that runs a simple web server that serves a git repository."
+LABEL org.opencontainers.image.licenses="MIT"
 
 # Switch to our none root user.
 USER container
