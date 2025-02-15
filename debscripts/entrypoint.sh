@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-echo "Starting container as $(whoami)..."
+echo "Starting web server as $(whoami)..."
 
 # Ensure the GIT_REPO environment variable is set.
 if [ -z "$GIT_REPO" ]; then
