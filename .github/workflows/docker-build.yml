@@ -19,6 +19,7 @@ jobs:
         variant:
           - { dockerfile: 'dockerfile.deb', tag: 'gitwebserver-deb' }
           - { dockerfile: 'dockerfile.alpine', tag: 'gitwebserver-alpine' }
+          - { dockerfile: 'dockerfile.caddy', tag: 'gitwebserver-caddy' }
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

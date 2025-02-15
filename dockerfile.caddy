@@ -14,7 +14,5 @@ RUN mkdir /web
 COPY scripts/entrypoint-caddy.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-
-
 # Use the entrypoint  to make a Caddyfile and start caddy.
 ENTRYPOINT ["/entrypoint.sh"]
