@@ -9,6 +9,17 @@ if [ -z "$GIT_REPO" ]; then
   exit 1
 fi
 
+# If a PAT is provided, modify the GIT_REPO URL accordingly.
+if [ -n "$GIT_PAT" ]; then
+  echo "Using GitHub Personal Access Token for authentication..."
+  if echo "$GIT_REPO" | grep -q "^https://"; then
+    GIT_REPO="https://${GIT_PAT}@${GIT_REPO#https://}"
+  else
+    echo "Error: When using GIT_PAT, GIT_REPO must be an HTTPS URL."
+    exit 1
+  fi
+fi
+
 # If /web does not contain a git repo, clone it. Otherwise, update it.
 if [ ! -d "/web/.git" ]; then
   echo "Cloning repository from $GIT_REPO into /web..."

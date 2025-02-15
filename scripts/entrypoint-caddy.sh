@@ -3,39 +3,54 @@ set -e
 
 echo "Starting Caddy-based webserver..."
 
-# If a Git repository is provided, clone or update the website files.
-if [ -n "$GIT_REPO" ]; then
-  # Ensure /web exists (it was created in Dockerfile, but for safety)
-  mkdir -p /web
-  if [ ! -d "/web/.git" ]; then
-    echo "Cloning repository: $GIT_REPO"
-    git clone --depth=1 "$GIT_REPO" /web
+# Ensure the GIT_REPO environment variable is set.
+if [ -z "$GIT_REPO" ]; then
+  echo "Error: GIT_REPO environment variable is not set. Exiting."
+  exit 1
+fi
+
+# Create the website directory.
+mkdir -p /web
+
+# If a PAT is provided, modify the GIT_REPO URL accordingly.
+if [ -n "$GIT_PAT" ]; then
+  echo "Using GitHub Personal Access Token for authentication..."
+  if echo "$GIT_REPO" | grep -q "^https://"; then
+    GIT_REPO="https://${GIT_PAT}@${GIT_REPO#https://}"
   else
-    echo "Repository already cloned, updating..."
-    cd /web && git pull
+    echo "Error: When using GIT_PAT, GIT_REPO must be an HTTPS URL."
+    exit 1
   fi
 fi
 
-# Check that the required DOMAIN variable is set.
+# Clone or update the repository.
+if [ ! -d "/web/.git" ]; then
+  echo "Cloning repository: $GIT_REPO"
+  git clone --depth=1 "$GIT_REPO" /web
+else
+  echo "Repository already cloned, updating..."
+  cd /web && git pull
+fi
+
+# Ensure that the DOMAIN environment variable is provided.
 if [ -z "$DOMAIN" ]; then
   echo "Error: DOMAIN environment variable is not set."
   exit 1
 fi
 
-# Create a dynamic Caddyfile with https.
+# Create a dynamic Caddyfile with auto HTTPS enabled.
 cat <<EOF > /etc/caddy/Caddyfile
 $DOMAIN {
     root * /web
     file_server
-    # Caddy auto-manages HTTPS certificates for valid public domains.
 }
 EOF
 
 echo "Generated Caddyfile:"
 cat /etc/caddy/Caddyfile
 
-# Set update timer, default is 1 hour.
-if [ -n "${UPDATE_TIMER:-3600}" ]; then
+# Optionally, set up a background loop to auto-update the repository.
+if [ -n "$UPDATE_TIMER" ]; then
   (
     while true; do
       sleep "${UPDATE_TIMER}"
