@@ -1,0 +1,20 @@
+FROM caddy:alpine
+LABEL org.opencontainers.image.authors="Sveken"
+LABEL org.opencontainers.image.title="GitWebServer"
+LABEL org.opencontainers.image.source=https://github.com/sveken/gitwebserver
+LABEL org.opencontainers.image.description="Docker image that runs a simple web server that serves a git repository."
+LABEL org.opencontainers.image.licenses="MIT"
+# Install Git
+RUN apk add --no-cache git
+
+# Create a directory for the website files
+RUN mkdir /web
+
+# Copy the Caddy entrypoint script from the scripts folder.
+COPY scripts/entrypoint-caddy.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+
+
+# Use the entrypoint  to make a Caddyfile and start caddy.
+ENTRYPOINT ["/entrypoint.sh"]
