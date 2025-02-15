@@ -1,9 +1,9 @@
 services:
   gitweb:
     environment:
-      GIT_REPO: https://github.com/Yellow-Dog-Man/Resonite-Website
+      GIT_REPO: # The Public Git Repo here.
       UPDATE_TIMER: 3600 # in seconds git will update the web files (default 3600) which is an hour. 
-    image: insert image here
+    image: ghcr.io/sveken/gitwebserver-alpine:latest
     ports:
       - "8080:8080"
     restart: always
