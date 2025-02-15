@@ -17,10 +17,10 @@ RUN useradd -m container
 RUN mkdir /web && chown container:container /web
 
 # Copy the Lighttpd configuration file. This is set to port 8080 already. 
-COPY debscripts/lighttpd.conf /etc/lighttpd/lighttpd.conf
+COPY scripts/lighttpd.conf /etc/lighttpd/lighttpd.conf
 
 # Copy the entrypoint script.
-COPY debscripts/entrypoint.sh /entrypoint.sh
+COPY scripts/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh && chown container:container /entrypoint.sh
 
 
