@@ -12,8 +12,8 @@ jobs:
     strategy:
       matrix:
         variant:
-          - { dockerfile: 'Dockerfile.deb', tag: 'gitwebserver-deb' }
-          - { dockerfile: 'Dockerfile.alpine', tag: 'gitwebserver-alpine' }
+          - { dockerfile: 'dockerfile.deb', tag: 'gitwebserver-deb' }
+          - { dockerfile: 'dockerfile.alpine', tag: 'gitwebserver-alpine' }
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
