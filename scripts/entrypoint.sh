@@ -20,7 +20,7 @@ fi
 
 # Start a background loop to update the repository every hour.
 ( while true; do
-    sleep "$UPDATE_TIMER:-3600"
+    sleep "${UPDATE_TIMER:-3600}"
     echo "Auto-updating repository in /web..."
     cd /web && git pull
   done ) &
