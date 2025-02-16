@@ -2,7 +2,7 @@
 A small  lighthttp webserver that auto pulls a website from a git repo and serves it. 
 It will then pull down any updates from the repository every hour by default. This setting can be changed.
 
-There are three version, debian with lighthttpd at 170MB, alpine at 24.3MB with lighthttpd and a alpine with caddy version with auto SSL at 60MB.
+There are three version in both AMD64 and arm7/arm64, debian with lighthttpd at 170MB, alpine at 21.9MB with lighthttpd and a alpine with caddy version with auto SSL at 60MB.
 Variables are 
 
 ```GIT_REPO``` which points to your repository. 
