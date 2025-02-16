@@ -43,6 +43,14 @@ cat <<EOF > /etc/caddy/Caddyfile
 $DOMAIN {
     root * /web
     file_server
+
+    # Block access to the .git folder
+    @denyGit {
+        path_regexp ^/\.git
+    }
+    handle @denyGit {
+        respond "Access Denied" 403
+    }
 }
 EOF
 
