@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 # Install Git and Lighttpd (only what is needed at runtime)
-RUN apk update && apk add --no-cache git lighttpd
+RUN  apk add --no-cache git lighttpd
 
 
 # We make the user we want to use in the container.
